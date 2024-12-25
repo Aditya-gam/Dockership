@@ -1,4 +1,0 @@
-Catfish,60
-Dogana,20
-Batons,20
-Rations for US Army,20
