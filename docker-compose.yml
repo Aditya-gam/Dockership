@@ -1,22 +1,33 @@
+# Dockership/docker-compose.yml
+
+# Define the services and configurations for the Docker Compose setup
 services:
+  # Define the web service
   web:
+    # Build the Docker image using the Dockerfile in the current directory
     build: .
+    # Map the container port 8501 (Streamlit default port) to the host's port 8501
     ports:
       - "8501:8501"
+    # Pass environment variables to the container
     environment:
-      - MONGO_USERNAME=${MONGO_USERNAME}
-      - MONGO_PASSWORD=${MONGO_PASSWORD}
-      - MONGO_URI=${MONGO_URI}
-      - MONGO_DBNAME=${MONGO_DBNAME}
+      - MONGO_USERNAME=${MONGO_USERNAME}  # MongoDB username (loaded from .env or environment)
+      - MONGO_PASSWORD=${MONGO_PASSWORD}  # MongoDB password (loaded from .env or environment)
+      - MONGO_URI=${MONGO_URI}            # MongoDB connection URI
+      - MONGO_DBNAME=${MONGO_DBNAME}      # Name of the MongoDB database
+    # Mount the current directory (host) to the /app directory in the container
     volumes:
       - .:/app
+    # Attach the service to the custom Docker network
     networks:
       - dockership_network
 
+# Define named volumes for persistent storage
 volumes:
   mongodb_data:
-    driver: local
+    driver: local  # Use the default local volume driver
 
+# Define custom networks for service communication
 networks:
   dockership_network:
-    driver: bridge
+    driver: bridge  # Use the bridge network driver for isolated containers

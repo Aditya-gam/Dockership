@@ -1,12 +1,14 @@
-# utils/validators.py
-import re
-from config.db_config import DBConfig
-from tasks.ship_balancer import Slot
+# Dockership/utils/validators.py
+
+import re  # For validating string patterns
+from config.db_config import DBConfig  # For database connection
+from tasks.ship_balancer import Slot  # Import Slot class to validate ship grid
 
 # Initialize DBConfig
 db_config = DBConfig()
-db = db_config.connect()
-users_collection = db_config.get_collection("users")
+db = db_config.connect()  # Establish a connection to the database
+users_collection = db_config.get_collection(
+    "users")  # Access the 'users' collection
 
 
 def check_user_exists(username: str):
@@ -17,7 +19,7 @@ def check_user_exists(username: str):
         username (str): The username to check.
 
     Returns:
-        dict or None: User document if found, None otherwise.
+        dict or None: The user document if found, None otherwise.
     """
     return users_collection.find_one({"username": username})
 
@@ -25,7 +27,7 @@ def check_user_exists(username: str):
 def validate_username(username):
     """
     Validates the username format. It must contain only alphanumeric characters, @, _, and must not be empty.
-    
+
     Args:
         username (str): The username to validate.
 
@@ -41,10 +43,11 @@ def validate_username(username):
         return False, "Username can only contain letters, numbers, @, and _."
     return True, ""
 
+
 def validate_name(name, field_name):
     """
     Validates name fields: first and last name should only contain letters.
-    
+
     Args:
         name (str): The name to validate.
         field_name (str): The name of the field (e.g., "first_name", "last_name").
@@ -60,10 +63,11 @@ def validate_name(name, field_name):
         return False, f"{field_name.replace('_', ' ').capitalize()} can only contain letters."
     return True, ""
 
+
 def validate_required_field(field, field_name):
     """
     Validates that a required field is not empty.
-    
+
     Args:
         field (str): The value of the field to validate.
         field_name (str): The name of the field.
@@ -74,6 +78,7 @@ def validate_required_field(field, field_name):
     if not field.strip():
         return False, f"{field_name} is required."
     return True, ""
+
 
 def validate_file_content(file_content):
     """
@@ -90,6 +95,7 @@ def validate_file_content(file_content):
     if len(file_content) > 10000:  # Arbitrary limit for demonstration
         return False, "The uploaded file exceeds the allowed size."
     return True, ""
+
 
 def validate_ship_grid(ship_grid):
     """

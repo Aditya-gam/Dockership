@@ -1,4 +1,0 @@
-## Add logging to file handler page. 
-## Add Two buttons to operation page "Logout" and "Upload another file".
-## Manage state so that the file stays with us till the click upload new file or logs out.
-## Add functionality where once the user is done with the file and presses either logout or upload another file, It should save the initially uploaded file and the later created file to the manifests collection. If there is no new file created, re-enter the initial file for both(as incoming and outgoing file).
